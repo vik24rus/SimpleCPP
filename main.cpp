@@ -332,14 +332,58 @@ cout << endl << endl;
 return 0;
 }*/
 
+/* Исключения
 #include <iostream>
-#include <math.h>
+
+using namespace std;
+
+int main()
+{   setlocale(LC_ALL, "rus");
+    int num1;
+    int num2;
+
+    int var = 3;
+    while (var != 0)
+    {
+        cout << "Введите число num1: ";
+        cin >> num1;
+        cout << "Введите число num2: ";
+        cin >> num2;
+
+        cout << "num1 + num2 = " << num1 + num2 << endl;
+        cout << "num1 / num2 = ";
+
+        try // тут располагается код, который потенциально может вызвать ошибку
+        {
+            if (num2 == 0)
+            {
+                throw 999; // генерировать целое число 999
+            }
+            cout << num1 / num2 << endl;
+        }
+
+        catch (int thr)// сюда передастся число, которое сгенерировал throw
+        {
+            cout << "Ошибка №" << thr << " - деление на 0!!!" << endl;
+        }
+
+        cout << "num1 - num2 = " << num1 - num2 << endl;
+        cout << "=================================" << endl << endl;
+
+        var--;
+    }
+
+    cout << "Программа завершила работу!" << endl << endl;
+
+    return 0;
+}
+*/
+
+#include <iostream>
+
 using namespace std;
 
 int main()
 {   setlocale(LC_ALL, "rus");
 
-
-    return 0;
 }
-
