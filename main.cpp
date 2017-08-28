@@ -379,11 +379,76 @@ int main()
 }
 */
 
+// Перечисления  enum notes{ DO = 12132131, RE = 211211, MI=1, FA=4, SOL=3, LA, SI=1 };
+
+/* Rand И МАССИВ
 #include <iostream>
+#include <time.h>
+#include <cstdlib>
 
 using namespace std;
 
-int main()
-{   setlocale(LC_ALL, "rus");
 
+int main()
+{   int mass[10];
+    srand(time(NULL));
+
+    for(int i=0; i <10 ; i++)
+    {
+        mass[i] = 7 + rand() %  8; // генератор от 7 до 14 - включая оба числа. lowerLimit + rand() % (upperLimit - lowerLimit + 1);
+    }
+
+    for(int i=0; i <10 ; i++)
+    {
+        cout << mass[i]  << "  " << endl;
+
+    }
+    cout << "WORKED" << endl;
+    for(int i=0; i <10 ; i++)
+    {
+        if(mass[i] >=  10  ){
+           mass[i]-=10;
+        }
+    }
+    for(int i=0; i <10 ; i++)
+    {
+        cout << mass[i]  << "  " << endl;
+
+    }
+    cout << "sucess" << endl;
+}*/
+
+/*Rand 2
+// * Заполнить массив из 50-ти элементов нечётными числами от 1 до 99.
+// * (используйте операцию остаток от деления, чтобы проверить число на чётность)
+*/
+#include <iostream>
+#include <time.h>
+#include <cstdlib>
+
+using namespace std;
+
+
+int main()
+{
+    int rand_tmp;
+    int mass[50];
+    srand(time(NULL));
+
+    for(int i=0; i <50 ; i++)
+    {
+        rand_tmp = 1 + rand() % (99-1+1);
+        if (rand_tmp % 2 != 0){
+            rand_tmp = 1 + rand() % (99-1+1);
+        }else
+
+
+        mass[i] = rand_tmp // генератор от 7 до 14 - включая оба числа. lowerLimit + rand() % (upperLimit - lowerLimit + 1);
+    }
+
+    for(int i=0; i <50 ; i++)
+    {
+        cout << mass[i]  << "  " << endl;
+    }
+    cout << "WORKED" << endl;
 }
