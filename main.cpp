@@ -584,7 +584,7 @@ int main()
 }
 */
 
-/*
+/* Сложная игрулька, с кубиками :)
 //Написать игру в которой имитируется бросание кубиков компьютером и пользователем.
 //В игре 2 кубика и на каждом из них может выпасть от 1 до 6 очков. Реализовать определение программой первого ходящего.
 //Каждый делает по четыре броска. После бросков показать, нарисованные символами кубики и количество очков, выпавших на них.
@@ -827,14 +827,95 @@ void render(int i , string player){
 }
 */
 
+/* Указатели 1
 #include <iostream>
 #include <time.h>
 #include <cstdlib>
 
 using namespace std;
 
+void changeData(int* varForCh1, int* varForCh2);
 
 int main()
 {
+    // ВНИМАНИЕ! int* arrWithDigits - объявление указателя
+    // на участок памяти, которую выделит new
+    int* arrWithDigits = new int [sizeOfArray];
 
+    int variableForChange_1 = 0;
+    int variableForChange_2 = 0;
+
+    cout << "variableForChange_1 = " << variableForChange_1 << endl;
+    cout << "variableForChange_2 = " << variableForChange_2 << endl;
+    cout << endl;
+
+    changeData(&variableForChange_1, &variableForChange_2); //отправлям адреса переменных а не само занчение
+
+    cout << endl;
+    cout << "variableForChange_1 = " << variableForChange_1 << endl;
+    cout << "variableForChange_2 = " << variableForChange_2 << endl;
+
+    delete [] arrWithDigits; // освобождение памяти
+
+    return 0;
+}
+void changeData(int* varForCh1, int* varForCh2) //сказали что должны получить адрес а не значение
+{
+    cout << "Введите новое значение первой переменной: ";
+    cin >> *varForCh1;  // разыменовали - выводим не адрес а значение
+    cout << "Введите новое значение второй переменной: ";
+    cin >> *varForCh2;  // разыменовали - выводим не адрес а значение
+}
+*/
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+char* giveNewMem(char *pstr1, int reqSize);
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+
+    int strSize1 = strlen("строка 1 ") + 1;
+    int strSize2 = strlen("+ строка 2") + 1;
+
+    char* pStr1 = new char[strSize1];
+    strcpy_s(pStr1, strSize1, "строка 1 ");
+
+    char* pStr2 = new char[strSize2];
+    strcpy_s(pStr2, strSize2, "+ строка 2");
+
+    cout << "1)" << pStr1 << endl;
+    cout << "2)" << pStr2 << endl << endl;
+
+    cout << "pStr1 занимает " << strSize1 << " байт памяти c \\0" << endl;
+    cout << "pStr2 занимает " << strSize2 << " байт памяти c \\0" << endl;
+
+    // strcat_s(pStr1, strSize1, pStr2); // НЕПРАВИЛЬНО! НЕДОСТАТОЧНО ПАМЯТИ В pStr1
+
+    int requiredSize = (strSize1 + strSize2) - 1;
+    cout << "\nНеобходимо " << requiredSize << " байт памяти для объединения строк." << endl << endl;
+
+    pStr1 = giveNewMem(pStr1, requiredSize); //функция, которая перевыделит память
+
+    strcat_s(pStr1, requiredSize, pStr2);
+    cout << "pStr1: " << pStr1 << endl << endl;
+
+    delete[] pStr1; // освобождаем память, которая была перевыделена в функции для strInFunc
+    delete[] pStr2; // освобождаем память, которая была выделена в main
+
+    return 0;
+}
+
+char* giveNewMem(char *pstr1, int reqSize)
+{
+    char* strInFunc = new char[reqSize]; // для копирования строки pstr1 перед удалением памяти
+
+    strcpy_s(strInFunc, reqSize, pstr1);
+
+    delete [] pstr1; // освобождаем память pstr1
+
+    return strInFunc;
 }
