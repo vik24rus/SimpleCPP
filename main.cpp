@@ -840,7 +840,7 @@ int main()
 {
     // ВНИМАНИЕ! int* arrWithDigits - объявление указателя
     // на участок памяти, которую выделит new
-    int* arrWithDigits = new int [sizeOfArray];
+    int* arrWithDigits = new int [sizeOfArray]; //выделять память или не выделять во время работы программы решаем
 
     int variableForChange_1 = 0;
     int variableForChange_2 = 0;
@@ -849,7 +849,7 @@ int main()
     cout << "variableForChange_2 = " << variableForChange_2 << endl;
     cout << endl;
 
-    changeData(&variableForChange_1, &variableForChange_2); //отправлям адреса переменных а не само занчение
+    changeData(&variableForChange_1, &variableForChange_2); //@@@@@@@@отправлям адреса переменных а не само занчение
 
     cout << endl;
     cout << "variableForChange_1 = " << variableForChange_1 << endl;
@@ -859,7 +859,7 @@ int main()
 
     return 0;
 }
-void changeData(int* varForCh1, int* varForCh2) //сказали что должны получить адрес а не значение
+void changeData(int* varForCh1, int* varForCh2) //@@@@@@@@@сказали что должны получить адрес а не значение
 {
     cout << "Введите новое значение первой переменной: ";
     cin >> *varForCh1;  // разыменовали - выводим не адрес а значение
@@ -868,54 +868,205 @@ void changeData(int* varForCh1, int* varForCh2) //сказали что долж
 }
 */
 
+//int firstVar = 77;
+//int* test = 0 или например int* test = &firstVar  // объявление указателя  ,  &firstVar - взяли адрес
+//cout << *test показать данные по этому указателю
+//	int firstArr[5] = {1, 2, 3, 4, 5};
+//  int* pFirstArr = firstArr; аналог int* pFirstArr = &firstArr[0];  // для массива
+//int* arrWithDigits = new int [sizeOfArray]; //выделять память или не выделять во время работы программы решаем
+//delete [] arrWithDigits; // освобождение памяти
+
+
+
+/* Указатели 2
 #include <iostream>
-#include <cstring>
 using namespace std;
 
-char* giveNewMem(char *pstr1, int reqSize);
+double* giveMemoryToArr(double* startPtr, int sizeOfArr);
+void fillArr(double* ptrArr, int sizeOfArr);
+void showArr(double* ptrArr, int sizeOfArr);
+double* freeMemory(double* ptrArr);
 
 int main()
 {
     setlocale(LC_ALL, "rus");
 
-    int strSize1 = strlen("строка 1 ") + 1;
-    int strSize2 = strlen("+ строка 2") + 1;
+    double* pArrForFill = 0;
+    char userAnswer = 0;
 
-    char* pStr1 = new char[strSize1];
-    strcpy_s(pStr1, strSize1, "строка 1 ");
+    do
+    {
+        int sizeOfArray = 0;
+        cout << "Размер массива: ";
+        cin >> sizeOfArray;
 
-    char* pStr2 = new char[strSize2];
-    strcpy_s(pStr2, strSize2, "+ строка 2");
+        pArrForFill = giveMemoryToArr(pArrForFill, sizeOfArray);
+        fillArr(pArrForFill, sizeOfArray);
+        showArr(pArrForFill, sizeOfArray);
+        pArrForFill = freeMemory(pArrForFill);
 
-    cout << "1)" << pStr1 << endl;
-    cout << "2)" << pStr2 << endl << endl;
-
-    cout << "pStr1 занимает " << strSize1 << " байт памяти c \\0" << endl;
-    cout << "pStr2 занимает " << strSize2 << " байт памяти c \\0" << endl;
-
-    // strcat_s(pStr1, strSize1, pStr2); // НЕПРАВИЛЬНО! НЕДОСТАТОЧНО ПАМЯТИ В pStr1
-
-    int requiredSize = (strSize1 + strSize2) - 1;
-    cout << "\nНеобходимо " << requiredSize << " байт памяти для объединения строк." << endl << endl;
-
-    pStr1 = giveNewMem(pStr1, requiredSize); //функция, которая перевыделит память
-
-    strcat_s(pStr1, requiredSize, pStr2);
-    cout << "pStr1: " << pStr1 << endl << endl;
-
-    delete[] pStr1; // освобождаем память, которая была перевыделена в функции для strInFunc
-    delete[] pStr2; // освобождаем память, которая была выделена в main
+        cout << "\nПродолжить (1). Выйти (0): ";
+        cin >> userAnswer;
+    } while (userAnswer != '0');
 
     return 0;
 }
 
-char* giveNewMem(char *pstr1, int reqSize)
+double* giveMemoryToArr(double* ptrArr, int sizeOfArr)
 {
-    char* strInFunc = new char[reqSize]; // для копирования строки pstr1 перед удалением памяти
-
-    strcpy_s(strInFunc, reqSize, pstr1);
-
-    delete [] pstr1; // освобождаем память pstr1
-
-    return strInFunc;
+    ptrArr = new double[sizeOfArr];
+    return ptrArr;
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void fillArr(double* ptrArr, int sizeOfArr)
+{
+    for (int i = 0; i < sizeOfArr; i++)
+    {
+        ptrArr[i] = (i + 1) * 0.2;
+    }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void showArr(double* ptrArr, int sizeOfArr)
+{
+    for (int i = 0; i < sizeOfArr; i++)
+    {
+        cout << ptrArr[i] << "  ";
+    }
+    cout << endl;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+double*  freeMemory(double* ptrArr)
+{
+    delete[] ptrArr;
+    ptrArr = 0;
+
+    return ptrArr;
+}
+
+*/
+
+/* Указатели Двумерный масив
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+void show2Arr(int** ArrForChange, int strAmount, int colAmount);
+void fill2Array(int** ArrForChange, int strAmount, int colAmount);
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+
+    int stringAmount = 0;
+    int columnAmount = 0;
+
+    cout << "Введите размерность двумерного массива!\n";
+    cout << "Строк: ";
+    cin >> stringAmount;
+    cout << "Столбцов: ";
+    cin >> columnAmount;
+
+    //создавая двумерный динамический массив используем указатель на указатель
+    int** ArrayForChange = new int*[stringAmount];
+    for (int i = 0; i < stringAmount; i++)
+    {
+        ArrayForChange[i] = new int[columnAmount];
+    }
+
+    fill2Array(ArrayForChange, stringAmount, columnAmount); // заполнение массива
+    show2Arr(ArrayForChange, stringAmount, columnAmount);  // показ на экран
+
+    //Очистка памяти динамического двумерного массива
+    for (int i = 0; i < stringAmount; i++)
+    {
+        delete[] ArrayForChange[i];
+    }
+    delete[] ArrayForChange;
+
+    return 0;
+}
+
+void show2Arr(int** ArrForChange, int strAmount, int colAmount)
+{
+    cout << endl << endl;
+    for (int i = 0; i < strAmount; i++)
+    {
+        cout << " |  ";
+        for (int j = 0; j < colAmount; j++)
+        {
+            cout << ArrForChange[i][j] << "  ";
+        }
+        cout << "|" << endl;
+    }
+}
+//заполнение элементов двумерного массива случайными значениями
+void fill2Array(int** ArrForChange, int strAmount, int colAmount)
+{
+    srand(time(0));
+    for (int i = 0; i < strAmount; i++)
+    {
+        for (int j = 0; j < colAmount; j++)
+        {
+            ArrForChange[i][j] = 10 + rand() % 41;
+        }
+    }
+}
+*/
+
+/* Ссылки
+#include <iostream>
+using namespace std;
+
+void showVariables(int varInt, double varDbl);
+void change(int varInt, double varDbl);      //  передача по значению
+void changeRef(int& varInt, double& varDbl); //  передача по ссылке
+void changePtr(int* varInt, double* varDbl); //  передача по указателю
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+
+    int varInteger = 0;
+    double varDouble = 0.0;
+
+    cout << "Передаем параметры по значению!" << endl;
+    change(varInteger, varDouble);
+    showVariables(varInteger, varDouble);
+
+    cout << "Передаем параметры по ссылке!" << endl;
+    changeRef(varInteger, varDouble);     // передаем, как обычную переменную
+    showVariables(varInteger, varDouble);
+
+    cout << "Передаем параметры по указателю!" << endl;
+    changePtr(&varInteger, &varDouble);   // используем амперсанд, чтобы передать адрес
+    showVariables(varInteger, varDouble);
+
+    return 0;
+}
+
+void showVariables(int varInt, double varDbl)
+{
+    cout << "Значения переменных после изменений:\n";
+    cout << "Первая переменная (int) = " << varInt << endl;
+    cout << "Вторая переменная (double) = " << varDbl << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+}
+//================================================================
+void change(int varInt, double varDbl)
+{
+    varInt = 100;
+    varDbl = 111.11;;
+}
+//================================================================
+void changeRef(int& varInt, double& varDbl)
+{
+    varInt = 200;     // обращаемся, как к обычной переменной
+    varDbl = 222.22;
+}
+//================================================================
+void changePtr(int* varInt, double* varDbl)
+{
+    *varInt = 300;     // применяем разыменование
+    *varDbl = 333.33;
+}*/
+
